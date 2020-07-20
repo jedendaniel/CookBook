@@ -11,7 +11,11 @@ import java.util.Set;
 @Service
 public class RecipeService {
 
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
+
+    public RecipeService(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     public Recipe createRecipe(Recipe recipe) {
         return recipeRepository.save(recipe);
@@ -26,8 +30,12 @@ public class RecipeService {
     }
 
     public Set<Recipe> getRecipes(RecipeSearchData recipe) {
-        recipeRepository.findByNameAndAuthorAndIngredients(recipe.getName(), recipe.getAuthor(), recipe.getObligatoryIngredients());
+//        recipeRepository.findByNameAndAuthorAndIngredients(recipe.getName(), recipe.getAuthor(), recipe.getObligatoryIngredients());
         return Set.of();
+    }
+
+    public Iterable<Recipe> getRecipes() {
+        return recipeRepository.findAll();
     }
 
     private boolean isAnyFieldMissing(RecipeSearchData recipe) {

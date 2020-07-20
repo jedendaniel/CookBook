@@ -5,46 +5,87 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
-@Getter
 @Setter
-public class Recipe {
+@Getter
+public class Recipe implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.PROTECTED)
+    @GeneratedValue
+//    @Column(name = "recipe_id")
+//    @Setter(AccessLevel.PROTECTED)
     private Long id;
     private String name;
     private String author;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "recipe_ingredient")
-    @ElementCollection
-//    @CollectionTable(name = "recipe_ingredient", joinColumns = @JoinColumn(name = "recipe_id"))
-//    @MapKeyJoinColumn(name = "ingredient_id")
-    private Map<Ingredient, String> ingredients;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "recipe",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<RecipeIngredient> ingredients = new ArrayList<>();
 
-    public Recipe(String name, String author, Map<Ingredient, String> ingredients) {
+    public Recipe() {
+    }
+
+    public Recipe(String name, String author) {
         this.name = name;
         this.author = author;
-        this.ingredients = ingredients;
+    }
+
+    public void addIngredients(Map<Ingredient, String> ingredients) {
+        ingredients.forEach(this::addIngredient);
+    }
+
+    public void addIngredient(Ingredient ingredient, String amount) {
+        RecipeIngredient recipeIngredient = new RecipeIngredient(this, ingredient, amount);
+        ingredients.add(recipeIngredient);
+        ingredient.getRecipes().add(recipeIngredient);
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        for (Iterator<RecipeIngredient> iterator = ingredients.iterator();
+             iterator.hasNext(); ) {
+            RecipeIngredient recipeIngredient = iterator.next();
+
+            if (recipeIngredient.getRecipe().equals(this) &&
+                    recipeIngredient.getIngredient().equals(ingredient)) {
+                iterator.remove();
+                recipeIngredient.getIngredient().getRecipes().remove(recipeIngredient);
+                recipeIngredient.setIngredient(null);
+                recipeIngredient.setRecipe(null);
+                recipeIngredient.setAmount(null);
+            }
+        }
     }
 
     @Override
-    public String toString() {
-        return "Recipe{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", ingredients=" + ingredients +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id) &&
+                Objects.equals(name, recipe.name) &&
+                Objects.equals(author, recipe.author) &&
+                Objects.equals(ingredients, recipe.ingredients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, author, ingredients);
     }
 }
