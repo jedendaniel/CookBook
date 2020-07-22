@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -22,20 +23,20 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Ingredient water = new Ingredient("Water");
-        Ingredient egg = new Ingredient("Egg");
-        Ingredient flour = new Ingredient("Flour");
-        Ingredient salt = new Ingredient("Salt");
+        Ingredient water = new Ingredient("water");
+        Ingredient egg = new Ingredient("egg");
+        Ingredient flour = new Ingredient("flour");
+        Ingredient salt = new Ingredient("salt");
         ingredientRepository.saveAll(List.of(water, egg, flour, salt));
 
 
-        Recipe scrambleEggs = new Recipe("Scramble eggs", "Ddd");
+        Recipe scrambleEggs = new Recipe("scramble eggs", "Ddd");
         recipeRepository.save(scrambleEggs);
         scrambleEggs.addIngredient(egg, "2");
         scrambleEggs.addIngredient(salt, "for taste");
         recipeRepository.saveAll(List.of(scrambleEggs));
 
-        Recipe pancakes = new Recipe("Pancakes", "Ddd");
+        Recipe pancakes = new Recipe("pancakes", "Ddd");
         recipeRepository.save(pancakes);
         pancakes.addIngredients(Map.of(
                 water, "0.5 liter",
@@ -45,6 +46,7 @@ public class DatabaseLoader implements CommandLineRunner {
         recipeRepository.save(pancakes);
 
         Iterable<Recipe> all = recipeRepository.findAll();
+        Optional<Ingredient> water1 = ingredientRepository.findById("water");
         System.out.println("a");
     }
 }

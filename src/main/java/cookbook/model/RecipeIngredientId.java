@@ -16,12 +16,12 @@ public class RecipeIngredientId implements Serializable {
     @Column(name = "recipe_Id")
     private Long recipeId;
     @Column(name = "ingredient_Id")
-    private Long ingredientId;
+    private String ingredientId;
 
     public RecipeIngredientId() {
     }
 
-    public RecipeIngredientId(Long recipeId, Long ingredientId) {
+    public RecipeIngredientId(Long recipeId, String ingredientId) {
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
     }
@@ -29,10 +29,7 @@ public class RecipeIngredientId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredientId that = (RecipeIngredientId) o;
         return Objects.equals(recipeId, that.recipeId) &&
                 Objects.equals(ingredientId, that.ingredientId);

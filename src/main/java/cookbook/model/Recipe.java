@@ -25,7 +25,7 @@ import java.util.Objects;
 public class Recipe implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
 //    @Column(name = "recipe_id")
 //    @Setter(AccessLevel.PROTECTED)
     private Long id;
@@ -86,6 +86,6 @@ public class Recipe implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, ingredients);
+        return Objects.hash(id, name, author);
     }
 }

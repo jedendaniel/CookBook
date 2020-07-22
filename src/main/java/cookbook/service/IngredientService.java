@@ -4,6 +4,8 @@ import cookbook.model.Ingredient;
 import cookbook.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class IngredientService {
     private final IngredientRepository ingredientRepository;
@@ -12,11 +14,23 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public Ingredient createIngredient(Ingredient ingredient) {
+    public Ingredient create(Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
 
-    public Iterable<Ingredient> getIngredients() {
+    public Optional<Ingredient> getByName(String string) {
+        return ingredientRepository.findById(string);
+    }
+
+    public Iterable<Ingredient> getAll() {
         return ingredientRepository.findAll();
+    }
+
+    public Ingredient update(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
+
+    public void delete(Ingredient ingredient) {
+        ingredientRepository.delete(ingredient);
     }
 }

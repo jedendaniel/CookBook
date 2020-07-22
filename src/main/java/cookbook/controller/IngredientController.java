@@ -21,11 +21,12 @@ public class IngredientController {
 
     @GetMapping
     public Iterable<Ingredient> getAll() {
-        return service.getIngredients();
+        return service.getAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Ingredient createIngredient(@RequestBody Ingredient ingredient) {
-        return service.createIngredient(ingredient);
+        return service.create(ingredient);
     }
+
 }
