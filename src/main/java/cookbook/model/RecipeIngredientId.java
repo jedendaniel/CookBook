@@ -18,10 +18,10 @@ public class RecipeIngredientId implements Serializable {
     @Column(name = "ingredient_Id")
     private String ingredientId;
 
-    public RecipeIngredientId() {
+    RecipeIngredientId() {
     }
 
-    public RecipeIngredientId(Long recipeId, String ingredientId) {
+    RecipeIngredientId(Long recipeId, String ingredientId) {
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
     }

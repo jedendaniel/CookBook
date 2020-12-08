@@ -1,5 +1,6 @@
 package cookbook.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,16 +21,18 @@ public class RecipeIngredient {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("recipeId")
+    @JsonBackReference
     private Recipe recipe;
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("ingredientId")
+    @JsonBackReference
     private Ingredient ingredient;
     private String amount;
 
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
+    RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
         this.recipe = recipe;
         this.ingredient = ingredient;
         this.id = new RecipeIngredientId(recipe.getId(), ingredient.getName());

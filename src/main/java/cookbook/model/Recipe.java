@@ -1,11 +1,10 @@
 package cookbook.model;
 
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +36,7 @@ public class Recipe implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<RecipeIngredient> ingredients = new ArrayList<>();
 
     public Recipe() {
