@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,9 +24,7 @@ public class Ingredient implements Serializable {
     private String name;
     @OneToMany(
             fetch = FetchType.EAGER,
-            mappedBy = "ingredient",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            mappedBy = "ingredient"
     )
     @JsonManagedReference
     private List<RecipeIngredient> recipes = new ArrayList<>();

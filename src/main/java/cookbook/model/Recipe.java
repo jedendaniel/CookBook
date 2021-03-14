@@ -25,14 +25,12 @@ public class Recipe implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "recipe_id")
-//    @Setter(AccessLevel.PROTECTED)
     private Long id;
     private String name;
     private String author;
     @OneToMany(
-            fetch = FetchType.EAGER,
             mappedBy = "recipe",
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -45,6 +43,18 @@ public class Recipe implements Serializable {
     public Recipe(String name, String author) {
         this.name = name;
         this.author = author;
+    }
+
+    public Recipe(String name, String author, List<RecipeIngredient> ingredients) {
+        this.name = name;
+        this.author = author;
+        this.ingredients = ingredients;
+    }
+
+    public Recipe(String name, String author, Map<Ingredient, String> ingredients) {
+        this.name = name;
+        this.author = author;
+        addIngredients(ingredients);
     }
 
     public void addIngredients(Map<Ingredient, String> ingredients) {

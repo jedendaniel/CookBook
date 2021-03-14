@@ -1,0 +1,35 @@
+---------------
+RECIPES
+
+FIND
+User should be able to find recipes by
+    - author - list all author's recipes
+    - name - list all with the name
+    - required ingredients - list of ingredients that have to be in recipe
+    - optional ingredients - calculate score and sort by it?
+
+Should all search options be available together?
+    Yes, why not.
+
+Choosing a recipe should open it with id as path param. Next time user might just open a link with id, so
+    - find by ID is also required (simple GET)
+
+CREATE/UPDATE
+    - recipe name is not unique but required
+    - author is added automatically (only signed up users are allowed to create recipe)
+    - only author can update its own recipe (after signing in)
+    - at least two (?) ingredients must be provided?
+    - POST request
+
+    - Cascade.ALL allows to create related entities with actual entity.
+        It is in Recipe on Ingredients, but it is not in Ingredient on Recipes,
+        meaning this way Recipe can be created with new Ingredient, but Ingredient must not be created with recipe.
+        Recipe must not be created using detached Ingredient, when Ingredient with the same name already exists.
+        Thus if Ingredient exists, it has to be pulled from DB or cache to save properly a Recipe.
+
+DELETE
+    - only author can delete its own recipe (after signing in)
+    - recipe should not be deleted immediately (first only mark, delete with cron job? after a week?)
+
+---------------
+INGREDIENTS

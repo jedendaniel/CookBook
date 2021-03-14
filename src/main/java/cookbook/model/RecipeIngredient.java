@@ -32,6 +32,13 @@ public class RecipeIngredient {
     public RecipeIngredient() {
     }
 
+    public RecipeIngredient(String ingredientName) {
+        this.recipe = null;
+        this.ingredient = null;
+        this.id = new RecipeIngredientId(null, ingredientName);
+        this.amount = null;
+    }
+
     RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
         this.recipe = recipe;
         this.ingredient = ingredient;
