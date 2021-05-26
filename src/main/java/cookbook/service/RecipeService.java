@@ -3,9 +3,9 @@ package cookbook.service;
 import cookbook.model.Recipe;
 import cookbook.model.RecipeSearchData;
 import cookbook.repository.RecipeRepository;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +25,8 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public Iterable<Recipe> get(RecipeSearchData recipeSearchData) {
-        Recipe probe = recipeSearchData.toRecipe();
-        return recipeRepository.findAll(Example.of(probe));
+    public List<Recipe> findByNameAuthorAndIngredients(RecipeSearchData recipeSearchData) {
+        List<String> requiredIngredients = recipeSearchData.getRequiredIngredients();
+        return recipeRepository.findByNameAuthorAndIngredients(recipeSearchData.getName(), recipeSearchData.getAuthor(), requiredIngredients, requiredIngredients.size());
     }
 }

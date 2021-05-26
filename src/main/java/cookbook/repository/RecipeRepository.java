@@ -1,25 +1,19 @@
 package cookbook.repository;
 
 import cookbook.model.Recipe;
-import cookbook.model.RecipeIngredient;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface RecipeRepository extends CrudRepository<Recipe, Long>, QueryByExampleExecutor<Recipe> {
-//    List<Recipe> findByNameOrAuthor(String name, String author);
-//
-//    List<Recipe> findByNameAndAuthor(String name, String author);
-//
-//    List<Recipe> findByNameOrAuthorOrIngredients(String name, String author, List<Ingredient> ingredients);
-//
-@Query("select r from Recipe r where r.name = :name and ingredients in :ingredients")
-List<Recipe> findBySearchData(String name, List<RecipeIngredient> ingredients);
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
+    Optional<Recipe> findByName(String name);
 
-    List<Recipe> findByNameAndAuthorAndIngredientsIn(String name, String author, RecipeIngredient... ingredients);
-
-//
-//    List<Recipe> findByIngredients(List<Ingredient> ingredients);
+    @Query("select r from Recipe r join RecipeIngredient ri on r.id = ri.recipe.id where " +
+            "(:name is null or r.name = :name) " +
+            "and (:author is null or r.author = :author) " +
+            "and (:size = 0L or ri.ingredient.name in :ingredients) " +
+            "group by r.id having (count(r.id) >= :size)")
+    List<Recipe> findByNameAuthorAndIngredients(String name, String author, List<String> ingredients, long size);
 }

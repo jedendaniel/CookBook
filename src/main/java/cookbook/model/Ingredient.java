@@ -41,8 +41,7 @@ public class Ingredient implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(recipes, that.recipes);
+        return Objects.equals(name, that.name);
     }
 
     @Override

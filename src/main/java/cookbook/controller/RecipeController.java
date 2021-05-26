@@ -23,26 +23,26 @@ public class RecipeController {
     }
 
     @GetMapping("/all")
-    Iterable<Recipe> getAll() {
+    public Iterable<Recipe> getAll() {
         return recipeService.getAll();
     }
 
     @GetMapping("/{id}")
-    Optional<Recipe> getById(@PathVariable Long id) {
+    public Optional<Recipe> getById(@PathVariable Long id) {
         return recipeService.getById(id);
     }
 
     @GetMapping
-    Iterable<Recipe> getRecipes(@RequestParam(required = false) String author,
-                                @RequestParam(required = false) String name,
-                                @RequestParam(required = false) List<String> requiredIngredients,
-                                @RequestParam(required = false) List<String> optionalIngredients) {
+    public List<Recipe> getRecipes(@RequestParam(required = false) String author,
+                                   @RequestParam(required = false) String name,
+                                   @RequestParam(required = false) List<String> requiredIngredients,
+                                   @RequestParam(required = false) List<String> optionalIngredients) {
         RecipeSearchData recipeSearchData = RecipeSearchData.getBuilder()
                 .setName(name)
                 .setAuthor(author)
                 .setRequiredIngredients(requiredIngredients)
                 .setOptionalIngredients(optionalIngredients)
                 .build();
-        return recipeService.get(recipeSearchData);
+        return recipeService.findByNameAuthorAndIngredients(recipeSearchData);
     }
 }

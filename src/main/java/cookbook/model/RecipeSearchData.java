@@ -37,13 +37,14 @@ public class RecipeSearchData {
     }
 
     public Recipe toRecipe() {
+        Recipe recipe = new Recipe(name, author);
         List<RecipeIngredient> recipeIngredients = Optional.ofNullable(requiredIngredients)
-                .map(ingredients -> ingredients.stream().map(RecipeIngredient::new).collect(Collectors.toList()))
+                .map(ingredients -> ingredients.stream()
+                        .map(ingredient -> new RecipeIngredient(recipe, new Ingredient(ingredient), null))
+                        .collect(Collectors.toList()))
                 .orElse(null);
-        List<RecipeIngredient> test = Optional.ofNullable(requiredIngredients)
-                .map(ingredients -> ingredients.stream().map(ingredient -> new RecipeIngredient(null, new Ingredient(ingredient), null)).collect(Collectors.toList()))
-                .orElse(null);
-        return new Recipe(name, author, recipeIngredients);
+        recipe.setIngredients(recipeIngredients);
+        return recipe;
     }
 
     public static Builder getBuilder() {
@@ -72,12 +73,12 @@ public class RecipeSearchData {
         }
 
         public RecipeSearchData.Builder setRequiredIngredients(List<String> ingredients) {
-            recipe.requiredIngredients = ingredients;
+            recipe.requiredIngredients = ingredients != null ? new ArrayList<>(ingredients) : List.of();
             return this;
         }
 
         public RecipeSearchData.Builder setOptionalIngredients(List<String> ingredients) {
-            recipe.requiredIngredients = ingredients;
+            recipe.optionalIngredients = ingredients != null ? new ArrayList<>(ingredients) : List.of();
             return this;
         }
 

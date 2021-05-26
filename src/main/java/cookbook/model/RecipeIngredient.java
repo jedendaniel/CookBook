@@ -32,13 +32,6 @@ public class RecipeIngredient {
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(String ingredientName) {
-        this.recipe = null;
-        this.ingredient = null;
-        this.id = new RecipeIngredientId(null, ingredientName);
-        this.amount = null;
-    }
-
     RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
         this.recipe = recipe;
         this.ingredient = ingredient;
@@ -51,14 +44,11 @@ public class RecipeIngredient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(recipe, that.recipe) &&
-                Objects.equals(ingredient, that.ingredient) &&
-                Objects.equals(amount, that.amount);
+        return Objects.equals(ingredient, that.ingredient);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, recipe, ingredient, amount);
+        return Objects.hash(ingredient);
     }
 }
