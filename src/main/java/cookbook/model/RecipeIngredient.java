@@ -32,7 +32,7 @@ public class RecipeIngredient {
     public RecipeIngredient() {
     }
 
-    RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient, String amount) {
         this.recipe = recipe;
         this.ingredient = ingredient;
         this.id = new RecipeIngredientId(recipe.getId(), ingredient.getName());

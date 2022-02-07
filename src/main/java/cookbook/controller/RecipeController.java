@@ -5,6 +5,8 @@ import cookbook.model.RecipeSearchData;
 import cookbook.service.RecipeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +46,10 @@ public class RecipeController {
                 .setOptionalIngredients(optionalIngredients)
                 .build();
         return recipeService.findByNameAuthorAndIngredients(recipeSearchData);
+    }
+
+    @PostMapping
+    public Recipe createRecipe(@RequestBody Recipe recipe) {
+        return recipeService.saveRecipe(recipe);
     }
 }

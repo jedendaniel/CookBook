@@ -18,16 +18,17 @@ public class IngredientService {
         return ingredientRepository.save(ingredient);
     }
 
+    public Ingredient update(Ingredient ingredient) {
+        ingredientRepository.findByName(ingredient.getName());
+        return ingredientRepository.save(ingredient);
+    }
+
     public Optional<Ingredient> getByName(String string) {
         return ingredientRepository.findById(string);
     }
 
     public Iterable<Ingredient> getAll() {
         return ingredientRepository.findAll();
-    }
-
-    public Ingredient update(Ingredient ingredient) {
-        return ingredientRepository.save(ingredient);
     }
 
     public void delete(Ingredient ingredient) {
