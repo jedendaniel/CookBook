@@ -12,6 +12,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <vaadin.version>14.8.0</vaadin.version>
     </properties>
 
     <groupId>dd</groupId>
@@ -25,7 +26,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-<!--        database-->
+        <!--        devtools-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--        database-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -36,7 +44,13 @@
             <scope>runtime</scope>
         </dependency>
 
-<!--        other-->
+        <!--        vaadin -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--        other-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -67,17 +81,24 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>com.github.eirslett</groupId>-->
-            <!--                <artifactId>frontend-maven-plugin</artifactId>-->
-            <!--                <version>1.10.0</version>-->
-            <!--            </plugin>-->
         </plugins>
     </build>
 </project>
