@@ -32,4 +32,24 @@ DELETE
     - recipe should not be deleted immediately (first only mark, delete with cron job? after a week?)
 
 ---------------
-INGREDIENTS
+INGREDIENTS/ RECIPE_INGREDIENT
+
+FIND
+User should be able to find recipes by
+    - name
+For cache recipeingredients should be grouped by ingredient name and if count reaches some level, those ingredients
+    should be added to cache
+
+CREATE/UPDATE
+    - Ingredients should be suggested. If for new recipe existing is used, do not create new ingredient - add new
+        RecipeIngredient entry with existing ingredient name. In case of update, when instead of existing new one is
+        used - create new ingredient.
+        Scenarios:
+            + User creating recipe types name of ingredient. While he is typing, suggested ingredients pop up. (Full text search?)
+                If he chooses one then it is passed to new recipe.
+                If he creates new one, it is created with the recipe?
+            + For update it will be the same
+
+DELETE
+    - recipeingredients should be deleted along with recipes
+    - ingredients should be deleted by a job if there is no recipeingredient for it

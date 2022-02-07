@@ -1,0 +1,9 @@
+-------
+IT TESTS
+    Run e2e tests
+    Prepare use case scenarios
+    Call controller methods
+    Check the response
+    First with h2 db, later replace it with some real db in test container
+
+    How to prepare test data in db?
